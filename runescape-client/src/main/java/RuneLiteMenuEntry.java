@@ -9,16 +9,17 @@ import net.runelite.rs.api.RSClient;
 public class RuneLiteMenuEntry implements MenuEntry {
 	private static RSClient client;
 
+	public final Menu menu;
 	public Consumer consumer;
-
 	public int idx;
 
-	public RuneLiteMenuEntry() {
-		idx = 499;
+	public RuneLiteMenuEntry(Menu menu, int idx) {
+		this.menu = menu;
+		this.idx = idx;
 	}
 
-	public RuneLiteMenuEntry(int idx) {
-		this.idx = idx;
+	public net.runelite.api.Menu getMenu() {
+		return (net.runelite.api.Menu) menu;
 	}
 
 	public Consumer getConsumer() {
@@ -37,33 +38,31 @@ public class RuneLiteMenuEntry implements MenuEntry {
 		this.idx = idx;
 	}
 
-	private MenuEntry parent;
-
 	@Override
 	public String getOption() {
-		return Client.menuActions[this.idx];
+		return this.menu.menuActions[this.idx];
 	}
 
 	@Override
 	public MenuEntry setOption(String option) {
-		Client.menuActions[this.idx] = option;
+		this.menu.menuActions[this.idx] = option;
 		return this;
 	}
 
 	@Override
 	public String getTarget() {
-		return Client.menuTargets[this.idx];
+		return this.menu.menuTargets[this.idx];
 	}
 
 	@Override
 	public MenuEntry setTarget(String target) {
-		Client.menuTargets[this.idx] = target;
+		this.menu.menuTargets[this.idx] = target;
 		return this;
 	}
 
 	@Override
 	public MenuAction getType() {
-		int opcode = Client.menuOpcodes[this.idx];
+		int opcode = this.menu.menuOpcodes[this.idx];
 		if (opcode >= 2000) {
 			opcode -= 2000;
 		}
@@ -77,18 +76,34 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public MenuEntry setType(MenuAction menuAction) {
-		int opcode = Client.menuOpcodes[this.idx];
+		int opcode = this.menu.menuOpcodes[this.idx];
 		short mod = 0;
 		if (opcode >= 2000) {
 			mod = 2000;
 		}
-		Client.menuOpcodes[this.idx] = menuAction.getId() + mod;
+		this.menu.menuOpcodes[this.idx] = menuAction.getId() + mod;
 		return this;
 	}
 
 	@Override
+	public net.runelite.api.Menu createSubMenu()
+	{
+		return (net.runelite.api.Menu) (this.menu.subMenus[this.idx] = new Menu(false));
+	}
+
+	@Override
+	public void deleteSubMenu() {
+		this.menu.subMenus[this.idx] = null;
+	}
+
+	@Override
+	public net.runelite.api.Menu getSubMenu() {
+		return (net.runelite.api.Menu) this.menu.subMenus[this.idx];
+	}
+
+	@Override
 	public int getOpcode() {
-		int opcode = Client.menuOpcodes[this.idx];
+		int opcode = this.menu.menuOpcodes[this.idx];
 		if (opcode >= 2000) {
 			opcode -= 2000;
 		}
@@ -97,33 +112,33 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public void setOpcode(int code) {
-		int opcode = Client.menuOpcodes[this.idx];
+		int opcode = this.menu.menuOpcodes[this.idx];
 		short mod = 0;
 		if (opcode >= 2000) {
 			mod = 2000;
 		}
-		Client.menuOpcodes[this.idx] = code + mod;
+		this.menu.menuOpcodes[this.idx] = code + mod;
 	}
 
 	@Override
 	public int getIdentifier() {
-		return Client.menuIdentifiers[this.idx];
+		return this.menu.menuIdentifiers[this.idx];
 	}
 
 	@Override
 	public MenuEntry setIdentifier(int identifier) {
-		Client.menuIdentifiers[this.idx] = identifier;
+		this.menu.menuIdentifiers[this.idx] = identifier;
 		return this;
 	}
 
 	@Override
 	public int getParam0() {
-		return Client.menuArguments1[this.idx];
+		return this.menu.menuArguments1[this.idx];
 	}
 
 	@Override
 	public MenuEntry setParam0(int param0) {
-		Client.menuArguments1[this.idx] = param0;
+		this.menu.menuArguments1[this.idx] = param0;
 		return this;
 	}
 
@@ -139,12 +154,12 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public int getParam1() {
-		return Client.menuArguments2[this.idx];
+		return this.menu.menuArguments2[this.idx];
 	}
 
 	@Override
 	public MenuEntry setParam1(int param1) {
-		Client.menuArguments2[this.idx] = param1;
+		this.menu.menuArguments2[this.idx] = param1;
 		return this;
 	}
 
@@ -160,42 +175,35 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public boolean isDeprioritized() {
-		return Client.menuOpcodes[this.idx] >= 2000;
+		return this.menu.menuOpcodes[this.idx] >= 2000;
 	}
 
 	@Override
 	public MenuEntry setDeprioritized(boolean deprioritize) {
 		int[] opcodes;
 		if (deprioritize) {
-			if (Client.menuOpcodes[this.idx] < 2000) {
-				opcodes = Client.menuOpcodes;
+			if (this.menu.menuOpcodes[this.idx] < 2000) {
+				opcodes = this.menu.menuOpcodes;
 				opcodes[this.idx] += 2000;
 			}
-		} else if (Client.menuOpcodes[this.idx] >= 2000) {
-			opcodes = Client.menuOpcodes;
+		} else if (this.menu.menuOpcodes[this.idx] >= 2000) {
+			opcodes = this.menu.menuOpcodes;
 			opcodes[this.idx] -= 2000;
 		}
 		return this;
 	}
 
 	@Override
-	public MenuEntry setParent(MenuEntry parent)
+	public MenuEntry onClick(Consumer<MenuEntry> callback)
 	{
-		if (parent == this)
-		{
-			throw new IllegalArgumentException("cannot set parent to self");
-		}
-		else
-		{
-			this.parent = (MenuEntry) parent;
-			return this;
-		}
+		this.consumer = callback;
+		return this;
 	}
 
 	@Override
-	public MenuEntry getParent()
+	public Consumer<MenuEntry> onClick()
 	{
-		return parent;
+		return this.consumer;
 	}
 
 	public WorldView getWorldView()
@@ -205,31 +213,25 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public boolean isForceLeftClick() {
-		return Client.menuShiftClick[this.idx];
+		return this.menu.menuShiftClick[this.idx];
 	}
 
 	@Override
 	public MenuEntry setForceLeftClick(boolean forceLeftClick) {
-		Client.menuShiftClick[this.idx] = forceLeftClick;
+		this.menu.menuShiftClick[this.idx] = forceLeftClick;
 		return this;
 	}
 
 	@Override
 	public int getWorldViewId()
 	{
-		return client.getMenuWorldViewIds()[this.idx];
+		return this.menu.menuWorldViewIds[this.idx];
 	}
 
 	@Override
 	public MenuEntry setWorldViewId(int worldViewId)
 	{
-		client.getMenuWorldViewIds()[this.idx] = worldViewId;
-		return this;
-	}
-
-	@Override
-	public MenuEntry onClick(Consumer consumer) {
-		this.consumer = consumer;
+		this.menu.menuWorldViewIds[this.idx] = worldViewId;
 		return this;
 	}
 
@@ -300,7 +302,7 @@ public class RuneLiteMenuEntry implements MenuEntry {
 	@Override
 	public boolean isItemOp() {
 		MenuAction menuAction = this.getType();
-		if (menuAction == MenuAction.CC_OP || menuAction == MenuAction.CC_OP_LOW_PRIORITY || menuAction == MenuAction.RUNELITE_SUBMENU_WIDGET) {
+		if (menuAction == MenuAction.CC_OP || menuAction == MenuAction.CC_OP_LOW_PRIORITY || menuAction == MenuAction.RUNELITE_WIDGET) {
 			int identifier = this.getIdentifier();
 			int param1 = this.getParam1();
 			if (param1 == 9764864) {
@@ -322,7 +324,7 @@ public class RuneLiteMenuEntry implements MenuEntry {
 	@Override
 	public int getItemOp() {
 		MenuAction menuAction = this.getType();
-		if (menuAction == MenuAction.CC_OP || menuAction == MenuAction.CC_OP_LOW_PRIORITY || menuAction == MenuAction.RUNELITE_SUBMENU_WIDGET) {
+		if (menuAction == MenuAction.CC_OP || menuAction == MenuAction.CC_OP_LOW_PRIORITY || menuAction == MenuAction.RUNELITE_WIDGET) {
 			int identifier = this.getIdentifier();
 			int param0 = this.getParam0();
 			int param1 = this.getParam1();
@@ -361,13 +363,13 @@ public class RuneLiteMenuEntry implements MenuEntry {
 
 	@Override
 	public MenuEntry setItemId(int itemId) {
-		Client.menuItemIds[this.idx] = itemId;
+		this.menu.menuItemIds[this.idx] = itemId;
 		return this;
 	}
 
 	@Override
 	public int getItemId() {
-		return Client.menuItemIds[this.idx];
+		return this.menu.menuItemIds[this.idx];
 	}
 
 	@Override
@@ -448,11 +450,9 @@ public class RuneLiteMenuEntry implements MenuEntry {
 	}
 
 	@Override
-	public String toString() {
-		int pidx = -1;
-		if(parent instanceof RuneLiteMenuEntry) {
-			pidx = ((RuneLiteMenuEntry)this.getParent()).getIdx();
-		}
-		return "MenuEntryImpl(idx="+ this.idx + ", parent=" + pidx + ", getOption=" + this.getOption() + ", getTarget=" + this.getTarget() + ", getIdentifier=" + this.getIdentifier() + ", getType=" + this.getType() + ", getParam0=" + this.getParam0() + ", getParam1=" + this.getParam1() + ", getItemId=" + this.getItemId() + ", isForceLeftClick=" + this.isForceLeftClick() + ", getWorldViewId=" + this.getWorldViewId() + ", isDeprioritized=" + this.isDeprioritized() + ")";
+	public String toString()
+	{
+		String option = this.getOption();
+		return "MenuEntryImpl(getOption=" + option + ", getTarget=" + this.getTarget() + ", getIdentifier=" + this.getIdentifier() + ", getType=" + this.getType() + ", getParam0=" + this.getParam0() + ", getParam1=" + this.getParam1() + ", getItemId=" + this.getItemId() + ", isForceLeftClick=" + this.isForceLeftClick() + ", getWorldViewId=" + this.getWorldViewId() + ", isDeprioritized=" + this.isDeprioritized() + ")";
 	}
 }

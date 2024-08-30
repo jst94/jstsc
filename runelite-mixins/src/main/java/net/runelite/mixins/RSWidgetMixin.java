@@ -617,9 +617,9 @@ public abstract class RSWidgetMixin implements RSWidget
 	@SuppressWarnings("InfiniteRecursion")
 	public RSModel copy$getModel(RSWidgetDefinition widgetDefinition, RSSequenceDefinition sequence, int frame, boolean alternate, RSPlayerComposition playerComposition, RSNpcOverrides npcOverrides)
 	{
-		if (frame != -1 && client.isInterpolateWidgetAnimations())
+		if (frame != -1 && client.getAnimationInterpolationFilter() != null && client.getAnimationInterpolationFilter().test(sequence.getId()))
 		{
-			frame = frame | getModelFrameCycle() << 16 | Integer.MIN_VALUE;
+			frame = frame | Math.max(getModelFrameCycle() - 1, 0) << 16 | Integer.MIN_VALUE;
 		}
 		return copy$getModel(widgetDefinition, sequence, frame, alternate, playerComposition, npcOverrides);
 	}

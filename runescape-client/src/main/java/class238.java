@@ -1,161 +1,236 @@
+import java.applet.Applet;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import net.runelite.mapping.Export;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
+import net.runelite.rs.Reflection;
 
-@ObfuscatedName("jb")
-public enum class238 implements Enum {
-	@ObfuscatedName("aq")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2512((byte)-1, 0.0F),
-	@ObfuscatedName("ad")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2520((byte)0, 0.5F),
-	@ObfuscatedName("ag")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2519((byte)1, 1.0F),
-	@ObfuscatedName("ak")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2509((byte)2, 2.0F),
-	@ObfuscatedName("ap")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2510((byte)3, 1.5F),
-	@ObfuscatedName("an")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2511((byte)4, 2.5F),
-	@ObfuscatedName("aj")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2516((byte)5, 3.0F),
-	@ObfuscatedName("av")
-	@ObfuscatedSignature(
-		descriptor = "Ljb;"
-	)
-	field2513((byte)6, 3.5F),
+@ObfuscatedName("je")
+public class class238 {
 	@ObfuscatedName("ab")
+	@Export("RunException_applet")
+	public static Applet RunException_applet;
+	@ObfuscatedName("aw")
 	@ObfuscatedSignature(
-		descriptor = "Ljb;"
+		descriptor = "Lnq;"
 	)
-	field2507((byte)7, 4.0F);
+	@Export("scriptDotWidget")
+	static Widget scriptDotWidget;
 
-	@ObfuscatedName("au")
+	@ObfuscatedName("ay")
 	@ObfuscatedSignature(
-		descriptor = "[Ljb;"
+		descriptor = "(Lvs;S)V",
+		garbageValue = "334"
 	)
-	static class238[] field2508 = class193.method3759();
-	@ObfuscatedName("tp")
-	@ObfuscatedSignature(
-		descriptor = "Lby;"
-	)
-	@Export("pcmStreamMixer")
-	static PcmStreamMixer pcmStreamMixer;
-	@ObfuscatedName("ai")
-	public final byte field2515;
-	@ObfuscatedName("ae")
-	public final float field2517;
+	@Export("performReflectionCheck")
+	public static void performReflectionCheck(PacketBuffer var0) {
+		ReflectionCheck var1 = (ReflectionCheck)class36.reflectionChecks.last();
+		if (var1 != null) {
+			int var2 = var0.offset;
+			var0.writeInt(var1.id);
 
-	static {
-		class562.method10144();
-	}
-
-	class238(byte var3, float var4) {
-		this.field2515 = var3;
-		this.field2517 = var4;
-	}
-
-	@ObfuscatedName("aq")
-	@ObfuscatedSignature(
-		descriptor = "(I)I",
-		garbageValue = "2071992588"
-	)
-	@Export("rsOrdinal")
-	public int rsOrdinal() {
-		return this.field2515;
-	}
-
-	@ObfuscatedName("jw")
-	@ObfuscatedSignature(
-		descriptor = "(Lde;ZI)V",
-		garbageValue = "2064026790"
-	)
-	@Export("addNpcsToScene")
-	static final void addNpcsToScene(WorldView var0, boolean var1) {
-		for (int var2 = 0; var2 < var0.npcCount; ++var2) {
-			NPC var3 = var0.npcs[var0.npcIndices[var2]];
-			if (var3 != null && var3.isVisible() && var3.definition.isVisible == var1 && var3.definition.transformIsVisible()) {
-				int var4 = var3.x >> 7;
-				int var5 = var3.y >> 7;
-				if (var4 >= 0 && var4 < var0.sizeX && var5 >= 0 && var5 < var0.sizeY) {
-					if (var3.field1194 == 1 && (var3.x & 127) == 64 && (var3.y & 127) == 64) {
-						if (var0.tileLastDrawnActor[var4][var5] == Client.viewportDrawCount) {
-							continue;
+			for (int var3 = 0; var3 < var1.size; ++var3) {
+				if (var1.creationErrors[var3] != 0) {
+					var0.writeByte(var1.creationErrors[var3]);
+				} else {
+					try {
+						int var4 = var1.operations[var3];
+						Field var5;
+						int var6;
+						if (var4 == 0) {
+							var5 = var1.fields[var3];
+							var6 = Reflection.getInt(var5, (Object)null);
+							var0.writeByte(0);
+							var0.writeInt(var6);
+						} else if (var4 == 1) {
+							var5 = var1.fields[var3];
+							Reflection.setInt(var5, (Object)null, var1.intReplaceValues[var3]);
+							var0.writeByte(0);
+						} else if (var4 == 2) {
+							var5 = var1.fields[var3];
+							var6 = var5.getModifiers();
+							var0.writeByte(0);
+							var0.writeInt(var6);
 						}
 
-						var0.tileLastDrawnActor[var4][var5] = Client.viewportDrawCount;
+						Method var25;
+						if (var4 != 3) {
+							if (var4 == 4) {
+								var25 = var1.methods[var3];
+								var6 = var25.getModifiers();
+								var0.writeByte(0);
+								var0.writeInt(var6);
+							}
+						} else {
+							var25 = var1.methods[var3];
+							byte[][] var10 = var1.arguments[var3];
+							Object[] var7 = new Object[var10.length];
+
+							for (int var8 = 0; var8 < var10.length; ++var8) {
+								ObjectInputStream var9 = new ObjectInputStream(new ByteArrayInputStream(var10[var8]));
+								var7[var8] = var9.readObject();
+							}
+
+							Object var11 = Reflection.invoke(var25, (Object)null, var7);
+							if (var11 == null) {
+								var0.writeByte(0);
+							} else if (var11 instanceof Number) {
+								var0.writeByte(1);
+								var0.writeLong(((Number)var11).longValue());
+							} else if (var11 instanceof String) {
+								var0.writeByte(2);
+								var0.writeStringCp1252NullTerminated((String)var11);
+							} else {
+								var0.writeByte(4);
+							}
+						}
+					} catch (ClassNotFoundException var13) {
+						var0.writeByte(-10);
+					} catch (InvalidClassException var14) {
+						var0.writeByte(-11);
+					} catch (StreamCorruptedException var15) {
+						var0.writeByte(-12);
+					} catch (OptionalDataException var16) {
+						var0.writeByte(-13);
+					} catch (IllegalAccessException var17) {
+						var0.writeByte(-14);
+					} catch (IllegalArgumentException var18) {
+						var0.writeByte(-15);
+					} catch (InvocationTargetException var19) {
+						var0.writeByte(-16);
+					} catch (SecurityException var20) {
+						var0.writeByte(-17);
+					} catch (IOException var21) {
+						var0.writeByte(-18);
+					} catch (NullPointerException var22) {
+						var0.writeByte(-19);
+					} catch (Exception var23) {
+						var0.writeByte(-20);
+					} catch (Throwable var24) {
+						var0.writeByte(-21);
+					}
+				}
+			}
+
+			var0.writeCrc(var2);
+			var1.remove();
+		}
+	}
+
+	@ObfuscatedName("am")
+	@ObfuscatedSignature(
+		descriptor = "(Ldy;Lvg;IIIIIII)V",
+		garbageValue = "647230295"
+	)
+	@Export("loadTerrain")
+	static final void loadTerrain(WorldView var0, Buffer var1, int var2, int var3, int var4, int var5, int var6, int var7) {
+		int[][][] var8 = var0.tileHeights;
+		byte[][][] var9 = var0.tileSettings;
+		int var10;
+		if (var2 >= 0 && var2 < 4 && var3 >= 0 && var3 < var8[0].length - 1 && var4 >= 0 && var4 < var8[0][0].length - 1) {
+			var9[var2][var3][var4] = 0;
+
+			while (true) {
+				var10 = var1.readUnsignedShort();
+				if (var10 == 0) {
+					if (var2 == 0) {
+						int[] var17 = var8[0][var3];
+						int var14 = var5 + 932731;
+						int var15 = var6 + 556238;
+						int var16 = class155.method3412(var14 + 45365, var15 + 91923, 4) - 128 + (class155.method3412(10294 + var14, var15 + 37821, 2) - 128 >> 1) + (class155.method3412(var14, var15, 1) - 128 >> 2);
+						var16 = (int)((double)var16 * 0.3D) + 35;
+						if (var16 < 10) {
+							var16 = 10;
+						} else if (var16 > 60) {
+							var16 = 60;
+						}
+
+						var17[var4] = -var16 * 8;
+					} else {
+						var8[var2][var3][var4] = var8[var2 - 1][var3][var4] - 240;
+					}
+					break;
+				}
+
+				if (var10 == 1) {
+					int var11 = var1.readUnsignedByte();
+					if (var11 == 1) {
+						var11 = 0;
 					}
 
-					long var6 = FileSystem.calculateTag(0, 0, 1, !var3.definition.isInteractable, var0.npcIndices[var2], var0.id);
-					var3.playerCycle = Client.cycle;
-					var0.scene.drawEntity(var0.plane, var3.x, var3.y, class169.getTileHeight(var0, var3.field1194 * 64 - 64 + var3.x, var3.field1194 * 64 - 64 + var3.y, var0.plane), var3.field1194 * 64 - 64 + 60, var3, var3.rotation, var6, var3.isWalking);
+					if (var2 == 0) {
+						var8[0][var3][var4] = -var11 * 8;
+					} else {
+						var8[var2][var3][var4] = var8[var2 - 1][var3][var4] - var11 * 8;
+					}
+					break;
+				}
+
+				if (var10 <= 49) {
+					Tiles.Tiles_overlays[var2][var3][var4] = (short)var1.readShort();
+					class213.Tiles_shapes[var2][var3][var4] = (byte)((var10 - 2) / 4);
+					class4.field6[var2][var3][var4] = (byte)(var10 - 2 + var7 & 3);
+				} else if (var10 <= 81) {
+					var9[var2][var3][var4] = (byte)(var10 - 49);
+				} else {
+					Tiles.Tiles_underlays[var2][var3][var4] = (short)(var10 - 81);
+				}
+			}
+		} else {
+			while (true) {
+				var10 = var1.readUnsignedShort();
+				if (var10 == 0) {
+					break;
+				}
+
+				if (var10 == 1) {
+					var1.readUnsignedByte();
+					break;
+				}
+
+				if (var10 <= 49) {
+					var1.readShort();
 				}
 			}
 		}
 
 	}
 
-	@ObfuscatedName("mx")
+	@ObfuscatedName("ah")
 	@ObfuscatedSignature(
-		descriptor = "(II)Ljava/lang/String;",
-		garbageValue = "1905415221"
+		descriptor = "(IIB)I",
+		garbageValue = "1"
 	)
-	@Export("formatItemStacks")
-	static final String formatItemStacks(int var0) {
-		String var1 = Integer.toString(var0);
-
-		for (int var2 = var1.length() - 3; var2 > 0; var2 -= 3) {
-			var1 = var1.substring(0, var2) + "," + var1.substring(var2);
-		}
-
-		if (var1.length() > 9) {
-			return " " + NpcOverrides.colorStartTag(65408) + var1.substring(0, var1.length() - 8) + "M" + " " + " (" + var1 + ")" + "</col>";
+	static final int method4871(int var0, int var1) {
+		if (var0 == -1) {
+			return 12345678;
 		} else {
-			return var1.length() > 6 ? " " + NpcOverrides.colorStartTag(16777215) + var1.substring(0, var1.length() - 4) + "K" + " " + " (" + var1 + ")" + "</col>" : " " + NpcOverrides.colorStartTag(16776960) + var1 + "</col>";
+			var1 = (var0 & 127) * var1 / 128;
+			if (var1 < 2) {
+				var1 = 2;
+			} else if (var1 > 126) {
+				var1 = 126;
+			}
+
+			return (var0 & 65408) + var1;
 		}
 	}
 
-	@ObfuscatedName("mk")
+	@ObfuscatedName("of")
 	@ObfuscatedSignature(
-		descriptor = "([Lnx;Lnx;ZI)V",
-		garbageValue = "-1942820533"
+		descriptor = "(Lnq;I)Z",
+		garbageValue = "235732454"
 	)
-	@Export("revalidateWidgetScroll")
-	static void revalidateWidgetScroll(Widget[] var0, Widget var1, boolean var2) {
-		int var3 = var1.scrollWidth != 0 ? var1.scrollWidth : var1.width;
-		int var4 = var1.scrollHeight != 0 ? var1.scrollHeight : var1.height;
-		ArchiveLoader.resizeInterface(var0, var1.id, var3, var4, var2);
-		if (var1.children != null) {
-			ArchiveLoader.resizeInterface(var1.children, var1.id, var3, var4, var2);
-		}
-
-		InterfaceParent var5 = (InterfaceParent)Client.interfaceParents.get((long)var1.id);
-		if (var5 != null) {
-			ClanChannel.method3488(var5.group, var3, var4, var2);
-		}
-
-		if (var1.contentType == 1337) {
-		}
-
+	@Export("isComponentHidden")
+	static boolean isComponentHidden(Widget var0) {
+		return var0.isHidden;
 	}
 }
