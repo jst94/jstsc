@@ -43,7 +43,7 @@ public class Static
 
 	@Inject
 	@Getter
-	private static ClientThread clientThread;
+    public static ClientThread clientThread;
 
 	@Inject
 	@Getter

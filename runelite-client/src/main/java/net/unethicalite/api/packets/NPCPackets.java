@@ -32,9 +32,10 @@ public class NPCPackets
 		queueNPCAction5Packet(npc.getIndex(), ctrlDown);
 	}
 
-	public static void npcAction(NPC npc, String action, boolean ctrlDown)
+	public static void npcAction(NPC npc, String action)
 	{
 		int index = npc.getActionIndex(action);
+		boolean ctrlDown = false; // Add this line to define ctrlDown
 		switch (index)
 		{
 			case 0:
