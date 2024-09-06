@@ -26,6 +26,7 @@
 package net.runelite.asm.execution;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import net.runelite.asm.Method;
@@ -37,15 +38,15 @@ import net.runelite.asm.attributes.code.instructions.Swap;
 
 public class InstructionContext
 {
-	private Instruction ins;
-	private Frame frame;
-	private Stack stack; // stack at time ins was executed
-	private Variables variables; // variables at time ins was executed
-	private List<StackContext> pops = new ArrayList<>(); // stack contexts popped by instruction execution
-	private List<StackContext> pushes = new ArrayList<>(); // stack contexts pushed by instruction execution
-	private List<VariableContext> reads = new ArrayList<>(); // lvt reads
-	private List<Method> invokes = new ArrayList<>(); // invokes
-	private List<Frame> branches = new ArrayList<>();
+	private final Instruction ins;
+	private final Frame frame;
+	private final Stack stack; // stack at time ins was executed
+	private final Variables variables; // variables at time ins was executed
+	private final List<StackContext> pops = new ArrayList<>(); // stack contexts popped by instruction execution
+	private final List<StackContext> pushes = new ArrayList<>(); // stack contexts pushed by instruction execution
+	private final List<VariableContext> reads = new ArrayList<>(); // lvt reads
+	private final List<Method> invokes = new ArrayList<>(); // invokes
+	private final List<Frame> branches = new ArrayList<>();
 	
 	public InstructionContext(Instruction i, Frame f)
 	{
@@ -66,8 +67,7 @@ public class InstructionContext
 	
 	public void push(StackContext... ctx)
 	{
-		for (StackContext c : ctx)
-			pushes.add(c);
+        Collections.addAll(pushes, ctx);
 	}
 	
 	public void read(VariableContext... ctx)

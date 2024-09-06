@@ -32,9 +32,9 @@ import net.runelite.asm.attributes.code.Instruction;
 
 public class MethodContext
 {
-	private Execution execution;
-	private Method method;
-	private Multimap<InstructionContext, Instruction> visited = HashMultimap.create();
+	private final Execution execution;
+	private final Method method;
+	private final Multimap<InstructionContext, Instruction> visited = HashMultimap.create();
 	public Multimap<Instruction, InstructionContext> contexts = HashMultimap.create();
 
 	public MethodContext(Execution execution, Method method)

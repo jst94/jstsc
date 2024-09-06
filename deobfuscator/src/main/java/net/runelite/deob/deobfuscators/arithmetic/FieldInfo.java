@@ -127,10 +127,7 @@ class FieldInfo
 			assert beforeSetter >= 0;
 			assert afterSetter >= 0;
 
-			if (afterSetter > beforeSetter)
-			{
-				return false;
-			}
+            return afterSetter <= beforeSetter;
 		}
 
 		return true;

@@ -67,12 +67,8 @@ class Comparison
 			return false;
 		}
 		final Comparison other = (Comparison) obj;
-		if (!Objects.equals(this.cmp, other.cmp))
-		{
-			return false;
-		}
-		return true;
-	}
+        return Objects.equals(this.cmp, other.cmp);
+    }
 
 	@Override
 	public String toString()

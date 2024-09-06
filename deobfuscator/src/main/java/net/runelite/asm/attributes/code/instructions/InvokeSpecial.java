@@ -85,7 +85,7 @@ public class InvokeSpecial extends Instruction implements InvokeInstruction
 	@SuppressWarnings("unchecked")
 	public List<net.runelite.asm.Method> getMethods()
 	{
-		return myMethod != null ? Arrays.asList(myMethod) : Collections.EMPTY_LIST;
+		return myMethod != null ? List.of(myMethod) : Collections.EMPTY_LIST;
 	}
 
 	@Override

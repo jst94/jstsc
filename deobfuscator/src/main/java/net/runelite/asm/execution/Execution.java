@@ -51,14 +51,14 @@ public class Execution
 	private final ClassGroup group;
 	public List<Frame> frames = new ArrayList<>(), framesOther = new ArrayList<>();
 	public Set<Instruction> executed = new HashSet<>(); // executed instructions
-	private Multimap<WeakInstructionContext, Method> stepInvokes = HashMultimap.create();
-	private Set<Method> invokes = new HashSet<>();
+	private final Multimap<WeakInstructionContext, Method> stepInvokes = HashMultimap.create();
+	private final Set<Method> invokes = new HashSet<>();
 	public boolean paused;
 	public boolean step = false;
 	public boolean noInvoke = false;
-	private List<ExecutionVisitor> visitors = new ArrayList<>();
-	private List<FrameVisitor> frameVisitors = new ArrayList<>();
-	private List<MethodContextVisitor> methodContextVisitors = new ArrayList<>();
+	private final List<ExecutionVisitor> visitors = new ArrayList<>();
+	private final List<FrameVisitor> frameVisitors = new ArrayList<>();
+	private final List<MethodContextVisitor> methodContextVisitors = new ArrayList<>();
 	private final Map<Object, Integer> order = new HashMap<>(); // field,method -> order encountered
 	private final Map<Object, Integer> accesses = new HashMap<>();
 	public boolean staticStep; // whether to step through static methods
@@ -228,11 +228,7 @@ public class Execution
 			++fcount;
 			frame.execute();
 
-			if (!staticStep)
-			{
-				// static step inserts stepped static function frames
-				assert frames.get(0) == frame;
-			}
+            assert staticStep || frames.get(0) == frame;
 			assert !frame.isExecuting();
 
 			accept(frame);

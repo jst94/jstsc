@@ -64,7 +64,7 @@ public class StoreLoadTest
 			{
 				testStore.load();
 
-				Assert.assertTrue(store.equals(testStore));
+                Assert.assertEquals(store, testStore);
 
 				testStore.save();
 			}
@@ -73,7 +73,7 @@ public class StoreLoadTest
 			{
 				testStore.load();
 
-				Assert.assertTrue(store.equals(testStore));
+                Assert.assertEquals(store, testStore);
 			}
 		}
 	}

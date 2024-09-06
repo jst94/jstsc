@@ -272,7 +272,7 @@ public abstract class If extends Instruction implements JumpingInstruction, Comp
 	{
 		List<Field> f1s = getComparedFields(thisIc), f2s = getComparedFields(otherIc);
 
-		if ((f1s != null) != (f2s != null))
+		if ((f1s == null) == (f2s != null))
 		{
 			return false;
 		}
@@ -312,13 +312,8 @@ public abstract class If extends Instruction implements JumpingInstruction, Comp
 				return true;
 			}
 
-			if (couldBeSame(f1, j2) && couldBeSame(j1, f2))
-			{
-				return true;
-			}
-
-			return false;
-		}
+            return couldBeSame(f1, j2) && couldBeSame(j1, f2);
+        }
 		else
 		{
 			Field f1 = f1s.get(0), f2 = f2s.get(0);

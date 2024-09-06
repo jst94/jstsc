@@ -128,10 +128,7 @@ public abstract class ArrayStore extends Instruction implements ArrayStoreInstru
 			Field f1 = gf1.getMyField(),
 				f2 = gf2.getMyField();
 
-			if (!MappingExecutorUtil.isMaybeEqual(f1, f2))
-			{
-				return false;
-			}
+            return MappingExecutorUtil.isMaybeEqual(f1, f2);
 		}
 
 		return true;

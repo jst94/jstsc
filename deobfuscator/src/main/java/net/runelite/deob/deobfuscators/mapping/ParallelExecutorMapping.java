@@ -46,7 +46,8 @@ public class ParallelExecutorMapping
 {
 	private static final Logger logger = LoggerFactory.getLogger(ParallelExecutorMapping.class);
 
-	private ClassGroup group, group2;
+	private final ClassGroup group;
+    private final ClassGroup group2;
 	private Multimap<Object, Mapping> map = HashMultimap.create();
 	public Method m1, m2;
 	public boolean crashed;

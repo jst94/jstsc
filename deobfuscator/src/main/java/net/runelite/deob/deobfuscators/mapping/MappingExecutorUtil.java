@@ -122,12 +122,9 @@ public class MappingExecutorUtil
 
 		if (className.startsWith("java/lang/reflect/") || className.startsWith("java/io/") || className.startsWith("java/util/"))
 			return true;
-		
-		if (className.startsWith("java/") || className.startsWith("netscape/") || className.startsWith("javax/"))
-			return false;
-		
-		return true;
-	}
+
+        return !className.startsWith("java/") && !className.startsWith("netscape/") && !className.startsWith("javax/");
+    }
 	
 	public static boolean isInlineable(Instruction i)
 	{
@@ -289,11 +286,8 @@ public class MappingExecutorUtil
 		}
 		
 		Interfaces i1 = cf1.getInterfaces(), i2 = cf2.getInterfaces();
-		if (i1.getInterfaces().size() != i2.getInterfaces().size())
-			return false;
-		
-		return true;
-	}
+        return i1.getInterfaces().size() == i2.getInterfaces().size();
+    }
 	
 	public static boolean isMaybeEqual(Field f1, Field f2)
 	{

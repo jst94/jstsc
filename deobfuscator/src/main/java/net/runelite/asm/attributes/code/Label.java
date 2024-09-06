@@ -62,7 +62,7 @@ public class Label extends NOP
 			}
 			else
 			{
-				string = "label " + next.toString();
+				string = "label " + next;
 			}
 		}
 

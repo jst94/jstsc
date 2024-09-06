@@ -78,12 +78,8 @@ public class Archive
 		{
 			return false;
 		}
-		if (this.revision != other.revision)
-		{
-			return false;
-		}
-		return true;
-	}
+        return this.revision == other.revision;
+    }
 
 	public Index getIndex()
 	{

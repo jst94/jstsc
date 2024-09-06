@@ -49,10 +49,10 @@ public class ScriptWriter extends rs2asmBaseListener
 	private int stringStackCount;
 	private int localIntCount;
 	private int localStringCount;
-	private List<Integer> opcodes = new ArrayList<>();
-	private List<Integer> iops = new ArrayList<>();
-	private List<String> sops = new ArrayList<>();
-	private List<LookupSwitch> switches = new ArrayList<>();
+	private final List<Integer> opcodes = new ArrayList<>();
+	private final List<Integer> iops = new ArrayList<>();
+	private final List<String> sops = new ArrayList<>();
+	private final List<LookupSwitch> switches = new ArrayList<>();
 
 	public ScriptWriter(Instructions instructions, LabelVisitor labelVisitor)
 	{

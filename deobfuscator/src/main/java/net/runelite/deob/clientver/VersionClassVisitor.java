@@ -31,7 +31,7 @@ import org.objectweb.asm.Opcodes;
 
 public class VersionClassVisitor extends ClassVisitor
 {
-	private VersionMethodVisitor vmv = new VersionMethodVisitor();
+	private final VersionMethodVisitor vmv = new VersionMethodVisitor();
 
 	public VersionClassVisitor()
 	{

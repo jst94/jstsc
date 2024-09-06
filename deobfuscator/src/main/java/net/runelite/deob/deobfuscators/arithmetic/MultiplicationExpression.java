@@ -71,7 +71,7 @@ public class MultiplicationExpression
 			}
 			
 			Instruction newIns = pci.setConstant(value);
-			assert newIns == (Instruction) pci;
+			assert newIns == pci;
 		}
 		
 		// multiply subexpressions by result

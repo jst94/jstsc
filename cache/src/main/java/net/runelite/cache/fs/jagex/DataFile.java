@@ -87,7 +87,7 @@ public class DataFile implements Closeable
 				return null;
 			}
 
-			dat.seek(SECTOR_SIZE * sector);
+			dat.seek((long) SECTOR_SIZE * sector);
 
 			int dataBlockSize = size - readBytesCount;
 			byte headerSize;
@@ -206,7 +206,7 @@ public class DataFile implements Closeable
 				writeBuffer[7] = (byte) (nextSector >> 8);
 				writeBuffer[8] = (byte) nextSector;
 				writeBuffer[9] = (byte) indexId;
-				dat.seek(SECTOR_SIZE * sector);
+				dat.seek((long) SECTOR_SIZE * sector);
 				dat.write(writeBuffer, 0, 10);
 
 				dataToWrite = data.remaining();
@@ -230,7 +230,7 @@ public class DataFile implements Closeable
 				writeBuffer[5] = (byte) (nextSector >> 8);
 				writeBuffer[6] = (byte) nextSector;
 				writeBuffer[7] = (byte) indexId;
-				dat.seek(SECTOR_SIZE * sector);
+				dat.seek((long) SECTOR_SIZE * sector);
 				dat.write(writeBuffer, 0, 8);
 
 				dataToWrite = data.remaining();

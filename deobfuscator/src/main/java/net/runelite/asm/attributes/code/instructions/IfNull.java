@@ -61,13 +61,8 @@ public class IfNull extends If0
 				return true;
 			}
 		}
-		if (otherIc.getInstruction() instanceof IfNonNull)
-		{
-			return true;
-		}
-		
-		return false;
-	}
+        return otherIc.getInstruction() instanceof IfNonNull;
+    }
 	
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

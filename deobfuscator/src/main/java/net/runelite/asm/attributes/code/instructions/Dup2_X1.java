@@ -26,6 +26,7 @@
 package net.runelite.asm.attributes.code.instructions;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import net.runelite.asm.attributes.code.Instruction;
 import net.runelite.asm.attributes.code.InstructionType;
@@ -234,7 +235,7 @@ public class Dup2_X1 extends Instruction implements DupInstruction
 		else if (ictx.getPushes().size() == 3)
 		{
 			// 0
-			return Arrays.asList(ictx.getPops().get(0));
+			return Collections.singletonList(ictx.getPops().get(0));
 		}
 		else
 		{
@@ -252,7 +253,7 @@ public class Dup2_X1 extends Instruction implements DupInstruction
 		else if (ictx.getPushes().size() == 3)
 		{
 			// 0
-			return Arrays.asList(ictx.getPushes().get(0));
+			return Collections.singletonList(ictx.getPushes().get(0));
 		}
 		else
 		{

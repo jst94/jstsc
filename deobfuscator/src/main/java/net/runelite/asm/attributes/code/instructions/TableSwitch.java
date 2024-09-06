@@ -204,7 +204,7 @@ public class TableSwitch extends Instruction implements JumpingInstruction, Mapp
 	{
 		Method method = thisIc.getFrame().getMethod();
 		// client init has randomally scrambled tableswitch
-		return method.getName().equals("init") == false;
+		return !method.getName().equals("init");
 	}
 
 }

@@ -279,12 +279,9 @@ public class MultiplicationDeobfuscator implements Deobfuscator
 		int i = one.getPops().indexOf(sctx);
 		
 		StackContext theirsctx = two.getPops().get(i);
-	
-		if (sctx.getPushed().getInstruction() != theirsctx.getPushed().getInstruction())
-			return false;
-		
-		return true;
-	}
+
+        return sctx.getPushed().getInstruction() == theirsctx.getPushed().getInstruction();
+    }
 
 	// ctx = imul, sctx = popped by imul
 	public static boolean isOnlyPath(InstructionContext ctx, StackContext sctx)
@@ -332,7 +329,7 @@ public class MultiplicationDeobfuscator implements Deobfuscator
 		return true;
 	}
 	
-	private Set<Instruction> done = new HashSet<>();
+	private final Set<Instruction> done = new HashSet<>();
 	
 	private void visit(MethodContext ctx)
 	{

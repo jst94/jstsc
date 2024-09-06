@@ -37,7 +37,7 @@ import net.runelite.asm.signature.Signature;
 
 public class MethodSignatureMapper
 {
-	private Multimap<Method, Method> map = LinkedHashMultimap.create();
+	private final Multimap<Method, Method> map = LinkedHashMultimap.create();
 
 	private List<Method> getMethods(ClassGroup group)
 	{

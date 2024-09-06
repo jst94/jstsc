@@ -32,8 +32,8 @@ import net.runelite.asm.attributes.code.Instruction;
 
 public class WeakInstructionContext
 {
-	private Instruction ins;
-	private List<Instruction> stack = new ArrayList<>();
+	private final Instruction ins;
+	private final List<Instruction> stack = new ArrayList<>();
 
 	public WeakInstructionContext(Instruction ins)
 	{
@@ -74,10 +74,6 @@ public class WeakInstructionContext
 		{
 			return false;
 		}
-		if (!Objects.equals(this.stack, other.stack))
-		{
-			return false;
-		}
-		return true;
-	}
+        return Objects.equals(this.stack, other.stack);
+    }
 }

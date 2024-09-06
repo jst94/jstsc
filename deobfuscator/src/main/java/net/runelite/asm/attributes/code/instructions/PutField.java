@@ -216,7 +216,7 @@ public class PutField extends Instruction implements SetFieldInstruction
 		net.runelite.asm.Field f1 = thisPf.getMyField();
 		net.runelite.asm.Field f2 = otherPf.getMyField();
 
-		if ((f1 != null) != (f2 != null))
+		if ((f1 == null) == (f2 != null))
 		{
 			return false;
 		}
@@ -246,13 +246,8 @@ public class PutField extends Instruction implements SetFieldInstruction
 		base1 = MappingExecutorUtil.resolve(object1.getPushed(), object1);
 		base2 = MappingExecutorUtil.resolve(object2.getPushed(), object2);
 
-		if (!isMaybeEqual(base1, base2))
-		{
-			return false;
-		}
-
-		return true;
-	}
+        return isMaybeEqual(base1, base2);
+    }
 
 	@Override
 	public boolean canMap(InstructionContext thisIc)
@@ -264,10 +259,7 @@ public class PutField extends Instruction implements SetFieldInstruction
 		// which are all constants, so we ignore those mappings here
 		if (thisIc.getFrame().getMethod().getName().equals("<init>"))
 		{
-			if (i instanceof PushConstantInstruction || i instanceof AConstNull)
-			{
-				return false;
-			}
+            return !(i instanceof PushConstantInstruction) && !(i instanceof AConstNull);
 		}
 
 		return true;

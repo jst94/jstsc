@@ -211,7 +211,7 @@ public class FlatStorage implements Storage
 		for (Index idx : store.getIndexes())
 		{
 			String file = idx.getId() + EXTENSION;
-			try (PrintStream br = new PrintStream(openWriter(file), false, StandardCharsets.UTF_8.name()))
+			try (PrintStream br = new PrintStream(openWriter(file), false, StandardCharsets.UTF_8))
 			{
 				br.printf("protocol=%d\n", idx.getProtocol());
 				br.printf("revision=%d\n", idx.getRevision());

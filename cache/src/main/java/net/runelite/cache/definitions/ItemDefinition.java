@@ -157,10 +157,7 @@ public class ItemDefinition
 		this.interfaceOptions = new String[5];
 		if (var2.interfaceOptions != null)
 		{
-			for (int var3 = 0; var3 < 4; ++var3)
-			{
-				this.interfaceOptions[var3] = var2.interfaceOptions[var3];
-			}
+            System.arraycopy(var2.interfaceOptions, 0, this.interfaceOptions, 0, 4);
 		}
 
 		this.interfaceOptions[4] = "Discard";

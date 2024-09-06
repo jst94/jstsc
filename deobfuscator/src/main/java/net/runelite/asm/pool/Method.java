@@ -80,12 +80,8 @@ public class Method
 		{
 			return false;
 		}
-		if (!Objects.equals(this.type, other.type))
-		{
-			return false;
-		}
-		return true;
-	}
+        return Objects.equals(this.type, other.type);
+    }
 
 	public Class getClazz()
 	{

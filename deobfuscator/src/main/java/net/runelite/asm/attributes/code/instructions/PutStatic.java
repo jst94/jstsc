@@ -183,7 +183,7 @@ public class PutStatic extends Instruction implements SetFieldInstruction
 		net.runelite.asm.Field f1 = thisPf.getMyField();
 		net.runelite.asm.Field f2 = otherPf.getMyField();
 
-		if ((f1 != null) != (f2 != null))
+		if ((f1 == null) == (f2 != null))
 		{
 			return false;
 		}

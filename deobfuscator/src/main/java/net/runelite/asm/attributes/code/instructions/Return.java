@@ -104,6 +104,6 @@ public class Return extends Instruction implements ReturnInstruction, MappableIn
 	public boolean canMap(InstructionContext thisIc)
 	{
 		// static methods can be inserted randomally and return things
-		return thisIc.getFrame().getMethod().isStatic() == false;
+		return !thisIc.getFrame().getMethod().isStatic();
 	}
 }

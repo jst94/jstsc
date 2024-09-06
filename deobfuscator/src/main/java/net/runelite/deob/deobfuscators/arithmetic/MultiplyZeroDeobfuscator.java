@@ -93,7 +93,7 @@ public class MultiplyZeroDeobfuscator implements Deobfuscator
 				}
 			}
 
-			if (remove == false)
+			if (!remove)
 			{
 				continue;
 			}

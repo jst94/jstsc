@@ -62,18 +62,10 @@ public class IfACmpEq extends If
 			{
 				return true;
 			}
-			if (s2.getPushed().getInstruction() instanceof AConstNull)
-			{
-				return true;
-			}
+            return s2.getPushed().getInstruction() instanceof AConstNull;
 		}
-		else if (otherIc.getInstruction() instanceof IfACmpNe)
-		{
-			return true;
-		}
-		
-		return false;
-	}
+		else return otherIc.getInstruction() instanceof IfACmpNe;
+    }
 	
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

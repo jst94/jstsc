@@ -24,11 +24,13 @@
  */
 package net.runelite.client.events;
 
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 /**
  * An event called when input is placed into the chatbox and sent
  */
+@EqualsAndHashCode(callSuper = true)
 @Value
 public class ChatboxInput extends ChatInput
 {

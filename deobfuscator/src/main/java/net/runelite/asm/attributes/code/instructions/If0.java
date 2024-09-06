@@ -190,7 +190,7 @@ public abstract class If0 extends Instruction implements JumpingInstruction, Com
 	protected boolean isSameField(InstructionContext thisIc, InstructionContext otherIc)
 	{
 		Field f1 = getComparedField(thisIc), f2 = getComparedField(otherIc);
-		if ((f1 != null) != (f2 != null))
+		if ((f1 == null) == (f2 != null))
 			return false;
 		
 		if (f1 == null || f2 == null)

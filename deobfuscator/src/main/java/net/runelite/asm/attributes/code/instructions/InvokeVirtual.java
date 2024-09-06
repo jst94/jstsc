@@ -145,7 +145,7 @@ public class InvokeVirtual extends Instruction implements InvokeInstruction
 	@Override
 	public List<net.runelite.asm.Method> getMethods()
 	{
-		return myMethods != null ? myMethods : Arrays.asList();
+		return myMethods != null ? myMethods : List.of();
 	}
 
 	@Override
@@ -384,10 +384,7 @@ public class InvokeVirtual extends Instruction implements InvokeInstruction
 			Field f1 = gf1.getMyField(),
 				f2 = gf2.getMyField();
 
-			if (!MappingExecutorUtil.isMaybeEqual(f1, f2))
-			{
-				return false;
-			}
+            return MappingExecutorUtil.isMaybeEqual(f1, f2);
 		}
 
 		return true;

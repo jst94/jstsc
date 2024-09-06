@@ -45,7 +45,7 @@ public class MissingMappingChecker implements Runnable
 {
 	private static final Logger logger = LoggerFactory.getLogger(MissingMappingChecker.class);
 
-	private ParallelExecutorMapping mapping;
+	private final ParallelExecutorMapping mapping;
 	private final ClassGroup namedGroup;
 	private final ClassGroup targetGroup;
 

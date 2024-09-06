@@ -33,9 +33,9 @@ public class VariableContext
 {
 	private StackContext ctx; // the value stored
 	private InstructionContext ic; // the instruction which stored it. also ctx.popped?
-	private Type type;
-	private List<InstructionContext> read = new ArrayList<>(); // instructions which reads this
-	private Value value;
+	private final Type type;
+	private final List<InstructionContext> read = new ArrayList<>(); // instructions which reads this
+	private final Value value;
 	private boolean isParameter; // if is a parameter. ctx will be the invoking method (in another frame)
 
 	public VariableContext(InstructionContext i, StackContext ctx)

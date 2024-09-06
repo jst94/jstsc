@@ -66,10 +66,6 @@ public class MapKey
 		{
 			return false;
 		}
-		if (this.type != other.type)
-		{
-			return false;
-		}
-		return true;
-	}
+        return this.type == other.type;
+    }
 }

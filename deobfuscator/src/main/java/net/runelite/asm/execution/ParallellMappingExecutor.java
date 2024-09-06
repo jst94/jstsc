@@ -33,7 +33,8 @@ import net.runelite.deob.deobfuscators.mapping.ParallelExecutorMapping;
 
 public class ParallellMappingExecutor
 {
-	private Execution e, e2;
+	private final Execution e;
+    private final Execution e2;
 	private InstructionContext p1, p2;
 	public ParallelExecutorMapping mappings;
 
@@ -116,8 +117,8 @@ public class ParallellMappingExecutor
 				assert p2.getInstruction() instanceof Return;
 
 				// the only mappable returns are in non static methods
-				assert f1.getMethod().isStatic() == false;
-				assert f2.getMethod().isStatic() == false;
+				assert !f1.getMethod().isStatic();
+				assert !f2.getMethod().isStatic();
 
 				// because this method isnt static theres nothing to return to
 				assert f1.returnTo == null;

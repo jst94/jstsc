@@ -82,12 +82,8 @@ public class IndexFile implements Closeable
 			return false;
 		}
 		final IndexFile other = (IndexFile) obj;
-		if (!Objects.equals(this.file, other.file))
-		{
-			return false;
-		}
-		return true;
-	}
+        return Objects.equals(this.file, other.file);
+    }
 
 	public int getIndexFileId()
 	{
@@ -96,7 +92,7 @@ public class IndexFile implements Closeable
 
 	public synchronized void write(IndexEntry entry) throws IOException
 	{
-		idx.seek(entry.getId() * INDEX_ENTRY_LEN);
+		idx.seek((long) entry.getId() * INDEX_ENTRY_LEN);
 
 		buffer[0] = (byte) (entry.getLength() >> 16);
 		buffer[1] = (byte) (entry.getLength() >> 8);
@@ -111,7 +107,7 @@ public class IndexFile implements Closeable
 
 	public synchronized IndexEntry read(int id) throws IOException
 	{
-		idx.seek(id * INDEX_ENTRY_LEN);
+		idx.seek((long) id * INDEX_ENTRY_LEN);
 		int i = idx.read(buffer);
 		if (i != INDEX_ENTRY_LEN)
 		{

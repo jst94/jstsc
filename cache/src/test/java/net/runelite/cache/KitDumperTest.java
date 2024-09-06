@@ -48,7 +48,7 @@ public class KitDumperTest
 {
 	private static final Logger logger = LoggerFactory.getLogger(KitDumperTest.class);
 
-	private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	@Rule
 	public TemporaryFolder folder = StoreLocation.getTemporaryFolder();

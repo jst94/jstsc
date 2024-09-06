@@ -45,7 +45,7 @@ public class MappingDumper
 		final MappingDump dump = new MappingDump().visitGroup(group);
 		dump.revision = Integer.parseInt(DeobProperties.getRevision());
 
-		log.info("RS version {}. Dump took {}", dump.revision, st.toString());
+		log.info("RS version {}. Dump took {}", dump.revision, st);
 		log.info("Total classes: {}. Total mapped classes: {}. ({}%)", dump.totalClasses, dump.totalNamedClasses, dump.totalNamedClasses * 100 / dump.totalClasses);
 		log.info("Total non static methods: {}. Total mapped non static methods: {}. ({}%)", dump.totalNonStaticMethods, dump.totalNamedNonStaticMethods, dump.totalNamedNonStaticMethods * 100 / dump.totalNamedMethods);
 		log.info("Total methods: {}. Total mapped methods: {}. ({}%)", dump.totalMethods, dump.totalNamedMethods, dump.totalNamedMethods * 100 / dump.totalMethods);

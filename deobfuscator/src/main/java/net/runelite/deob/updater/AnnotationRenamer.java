@@ -37,7 +37,7 @@ import net.runelite.deob.util.NameMappings;
 
 public class AnnotationRenamer
 {
-	private ClassGroup group;
+	private final ClassGroup group;
 
 	public AnnotationRenamer(ClassGroup group)
 	{

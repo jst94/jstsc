@@ -78,8 +78,8 @@ public class ModArith implements Deobfuscator
 	private ClassGroup group;
 	private Execution execution;
 	private final Map<Field, FieldInfo> fieldInfo = new HashMap<>();
-	private List<Pair> pairs = new ArrayList<>();
-	private Encryption encryption = new Encryption();
+	private final List<Pair> pairs = new ArrayList<>();
+	private final Encryption encryption = new Encryption();
 
 	private FieldInfo getFieldInfo(Field field)
 	{
@@ -563,13 +563,8 @@ public class ModArith implements Deobfuscator
 			return false;
 		}
 
-		if (c.contains(value))
-		{
-			return true;
-		}
-
-		return false;
-	}
+        return c.contains(value);
+    }
 
 	private void guess()
 	{
@@ -675,12 +670,12 @@ public class ModArith implements Deobfuscator
 						// insert imul
 						if (p.getType() == Integer.class)
 						{
-							ilist.add(i++, new LDC(ins, (int) p.getter));
+							ilist.add(i++, new LDC(ins, p.getter));
 							ilist.add(i++, new IMul(ins));
 						}
 						else if (p.getType() == Long.class)
 						{
-							ilist.add(i++, new LDC(ins, (long) p.getter));
+							ilist.add(i++, new LDC(ins, p.getter));
 							ilist.add(i++, new LMul(ins));
 						}
 						else
@@ -709,12 +704,12 @@ public class ModArith implements Deobfuscator
 						// imul
 						if (p.getType() == Integer.class)
 						{
-							ilist.add(++i, new LDC(ins, (int) p.setter));
+							ilist.add(++i, new LDC(ins, p.setter));
 							ilist.add(++i, new IMul(ins));
 						}
 						else if (p.getType() == Long.class)
 						{
-							ilist.add(++i, new LDC(ins, (long) p.setter));
+							ilist.add(++i, new LDC(ins, p.setter));
 							ilist.add(++i, new LMul(ins));
 						}
 						else

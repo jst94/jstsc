@@ -30,10 +30,10 @@ import net.runelite.asm.attributes.code.Instruction;
 
 public class Mapping
 {
-	private Object from;
-	private Object object;
+	private final Object from;
+	private final Object object;
 	private int count;
-	private List<Instruction> ins = new ArrayList<>();
+	private final List<Instruction> ins = new ArrayList<>();
 	public boolean wasExecuted;
 	public int weight; // weight of mapping, based on same instruction count
 

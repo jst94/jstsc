@@ -32,8 +32,8 @@ public class ExecutionMapper
 {
 	// method1 maps to one of methods2, find out based on mappings
 	
-	private Method method1;
-	private Collection<Method> methods2;
+	private final Method method1;
+	private final Collection<Method> methods2;
 
 	public ExecutionMapper(Method method1, Collection<Method> methods2)
 	{

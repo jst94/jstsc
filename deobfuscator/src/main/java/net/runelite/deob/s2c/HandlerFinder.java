@@ -230,7 +230,7 @@ public class HandlerFinder
 
 		e.addFrame(f);
 
-		while (e.frames.isEmpty() == false)
+		while (!e.frames.isEmpty())
 		{
 			f = e.frames.get(0);
 

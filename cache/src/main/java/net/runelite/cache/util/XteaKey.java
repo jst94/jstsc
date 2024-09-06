@@ -30,5 +30,5 @@ import lombok.Data;
 public class XteaKey
 {
 	private int mapsquare;
-	private int key[];
+	private int[] key;
 }

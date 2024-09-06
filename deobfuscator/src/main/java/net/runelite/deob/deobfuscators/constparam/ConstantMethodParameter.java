@@ -65,10 +65,6 @@ class ConstantMethodParameter
 		{
 			return false;
 		}
-		if (this.lvtIndex != other.lvtIndex)
-		{
-			return false;
-		}
-		return true;
-	}
+        return this.lvtIndex == other.lvtIndex;
+    }
 }

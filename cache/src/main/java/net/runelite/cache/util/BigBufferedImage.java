@@ -157,7 +157,7 @@ public class BigBufferedImage extends BufferedImage
 		public ImagePartLoader call() throws Exception
 		{
 			Thread.currentThread().setPriority((Thread.MIN_PRIORITY + Thread.NORM_PRIORITY) / 2);
-			try (ImageInputStream stream = ImageIO.createImageInputStream(file);)
+			try (ImageInputStream stream = ImageIO.createImageInputStream(file))
 			{
 				Iterator<ImageReader> readers = ImageIO.getImageReaders(stream);
 				if (readers.hasNext())

@@ -217,7 +217,7 @@ public class ItemSpriteFactory
 	private static Model light(ModelDefinition def, int ambient, int contrast, int x, int y, int z)
 	{
 		def.computeNormals();
-		int somethingMagnitude = (int) Math.sqrt((double) (z * z + x * x + y * y));
+		int somethingMagnitude = (int) Math.sqrt(z * z + x * x + y * y);
 		int var7 = somethingMagnitude * contrast >> 8;
 		Model litModel = new Model();
 		litModel.faceColors1 = new int[def.faceCount];

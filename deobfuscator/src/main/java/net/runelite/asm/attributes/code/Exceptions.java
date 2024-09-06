@@ -32,8 +32,8 @@ import net.runelite.asm.attributes.Code;
 
 public class Exceptions
 {
-	private Code code;
-	private List<Exception> exceptions = new ArrayList<Exception>();
+	private final Code code;
+	private final List<Exception> exceptions = new ArrayList<Exception>();
 
 	public Exceptions(Code code)
 	{

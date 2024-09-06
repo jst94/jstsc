@@ -75,11 +75,6 @@ public class ClassMapper
 		Multiset<Signature> s1 = methodCardinalities(one);
 		Multiset<Signature> s2 = methodCardinalities(two);
 
-		if (!s1.equals(s2))
-		{
-			return false;
-		}
-
-		return true;
-	}
+        return s1.equals(s2);
+    }
 }

@@ -1398,11 +1398,11 @@ public class MapImageDumper
 									{
 										if (rotation == 0)
 										{
-											image.setRGB(drawX + 0, drawY + 0, rgb);
+											image.setRGB(drawX, drawY, rgb);
 										}
 										else if (rotation == 1)
 										{
-											image.setRGB(drawX + MAP_SCALE - 1, drawY + 0, rgb);
+											image.setRGB(drawX + MAP_SCALE - 1, drawY, rgb);
 										}
 										else if (rotation == 2)
 										{
@@ -1410,7 +1410,7 @@ public class MapImageDumper
 										}
 										else if (rotation == 3)
 										{
-											image.setRGB(drawX + 0, drawY + MAP_SCALE - 1, rgb);
+											image.setRGB(drawX, drawY + MAP_SCALE - 1, rgb);
 										}
 									}
 

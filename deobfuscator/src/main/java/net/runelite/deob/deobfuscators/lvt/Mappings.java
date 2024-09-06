@@ -36,8 +36,8 @@ public class Mappings
 
 	private final int maxVariables;
 	private int offset;
-	private Map<Integer, LVTType> map = new HashMap<>();
-	private Map<MapKey, Integer> newIdxMap = new HashMap<>();
+	private final Map<Integer, LVTType> map = new HashMap<>();
+	private final Map<MapKey, Integer> newIdxMap = new HashMap<>();
 
 	public Mappings(int maxVariables)
 	{

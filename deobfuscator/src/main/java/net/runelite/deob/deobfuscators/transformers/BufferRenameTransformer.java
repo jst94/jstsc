@@ -120,7 +120,7 @@ public class BufferRenameTransformer implements Transformer
 				.map(Method::getName)
 				.collect(Collectors.toList());
 
-			logger.error("Add the newly mapped methods: {}", newMappedMethods.toString());
+			logger.error("Add the newly mapped methods: {}", newMappedMethods);
 		}
 
 		// Print

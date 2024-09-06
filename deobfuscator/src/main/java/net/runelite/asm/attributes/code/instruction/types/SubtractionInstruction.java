@@ -119,10 +119,7 @@ public interface SubtractionInstruction extends MappableInstruction
 
 			Field fi1 = f1.getMyField(), fi2 = f2.getMyField();
 
-			if (!MappingExecutorUtil.isMaybeEqual(fi1, fi2))
-			{
-				return false;
-			}
+            return MappingExecutorUtil.isMaybeEqual(fi1, fi2);
 		}
 		
 		return true;

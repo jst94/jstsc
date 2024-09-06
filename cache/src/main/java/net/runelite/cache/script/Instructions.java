@@ -593,12 +593,12 @@ public class Instructions implements Opcodes
 		Instruction i = new Instruction(opcode);
 		i.setName(name);
 
-		assert instructions.containsKey(opcode) == false;
+		assert !instructions.containsKey(opcode);
 		instructions.put(opcode, i);
 
 		if (name != null)
 		{
-			assert instructionsByName.containsKey(name) == false;
+			assert !instructionsByName.containsKey(name);
 			instructionsByName.put(name, i);
 		}
 	}

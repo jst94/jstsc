@@ -45,14 +45,9 @@ public class IfCmpGe extends If
 		
 		if (thisIc.getInstruction().getClass() == otherIc.getInstruction().getClass())
 			return true;
-		
-		if (otherIc.getInstruction() instanceof IfCmpLt)
-		{
-			return true;
-		}
-		
-		return false;
-	}
+
+        return otherIc.getInstruction() instanceof IfCmpLt;
+    }
 	
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

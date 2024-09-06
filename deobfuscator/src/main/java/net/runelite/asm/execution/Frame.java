@@ -53,10 +53,10 @@ public class Frame
 	private boolean executing = true;
 	private Instruction cur; // current instruction
 	private final Multimap<Instruction, Exception> exceptions;
-	private Stack stack;
-	private Variables variables;
-	private List<InstructionContext> instructions = new ArrayList<>(); // instructions executed in this frame
-	private MethodContext ctx;
+	private final Stack stack;
+	private final Variables variables;
+	private final List<InstructionContext> instructions = new ArrayList<>(); // instructions executed in this frame
+	private final MethodContext ctx;
 	protected Method nonStatic; // next non static method up the stack
 	public Frame other; // in the other execution for mapping
 	public Frame returnTo; // is this the same as caller?

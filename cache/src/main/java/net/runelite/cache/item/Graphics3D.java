@@ -1594,14 +1594,14 @@ class Graphics3D extends Rasterizer2D
 				var14 -= var12;
 				var17 -= var15;
 				int var32 = var11 * var12 - var9 * var14 << 14;
-				int var33 = (int) (((long) (var15 * var14 - var17 * var12) << 3 << 14) / (long) Rasterizer3D_zoom);
-				int var34 = (int) (((long) (var17 * var9 - var11 * var15) << 14) / (long) Rasterizer3D_zoom);
+				int var33 = (int) (((long) ((long) var15 * var14 - (long) var17 * var12) << 3 << 14) / (long) Rasterizer3D_zoom);
+				int var34 = (int) (((long) ((long) var17 * var9 - (long) var11 * var15) << 14) / (long) Rasterizer3D_zoom);
 				int var35 = var10 * var12 - var13 * var9 << 14;
-				int var36 = (int) (((long) (var13 * var15 - var16 * var12) << 3 << 14) / (long) Rasterizer3D_zoom);
-				int var37 = (int) (((long) (var16 * var9 - var10 * var15) << 14) / (long) Rasterizer3D_zoom);
+				int var36 = (int) (((long) ((long) var13 * var15 - (long) var16 * var12) << 3 << 14) / (long) Rasterizer3D_zoom);
+				int var37 = (int) (((long) ((long) var16 * var9 - (long) var10 * var15) << 14) / (long) Rasterizer3D_zoom);
 				int var38 = var13 * var11 - var10 * var14 << 14;
-				int var39 = (int) (((long) (var16 * var14 - var13 * var17) << 3 << 14) / (long) Rasterizer3D_zoom);
-				int var40 = (int) (((long) (var17 * var10 - var11 * var16) << 14) / (long) Rasterizer3D_zoom);
+				int var39 = (int) (((long) ((long) var16 * var14 - (long) var13 * var17) << 3 << 14) / (long) Rasterizer3D_zoom);
+				int var40 = (int) (((long) ((long) var17 * var10 - (long) var11 * var16) << 14) / (long) Rasterizer3D_zoom);
 				int var41;
 				if (var0 <= var1 && var0 <= var2)
 				{

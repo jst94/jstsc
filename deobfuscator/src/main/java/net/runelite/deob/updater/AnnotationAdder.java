@@ -35,7 +35,7 @@ public class AnnotationAdder
 				continue;
 			}
 
-			log.debug("Checking {}", c.toString());
+			log.debug("Checking {}", c);
 
 			String implementingName = DeobAnnotations.getImplements(c);
 			if (!Strings.isNullOrEmpty(implementingName))

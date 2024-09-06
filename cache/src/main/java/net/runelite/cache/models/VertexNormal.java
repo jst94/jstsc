@@ -11,7 +11,7 @@ public class VertexNormal
 	{
 		Vector3f v = new Vector3f();
 
-		int length = (int) Math.sqrt((double) (x * x + y * y + z * z));
+		int length = (int) Math.sqrt(x * x + y * y + z * z);
 		if (length == 0)
 		{
 			length = 1;

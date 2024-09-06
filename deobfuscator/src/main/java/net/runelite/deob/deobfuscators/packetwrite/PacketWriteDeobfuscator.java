@@ -166,13 +166,8 @@ public class PacketWriteDeobfuscator implements Deobfuscator
 			return true;
 		}
 
-		if (i instanceof ReturnInstruction)
-		{
-			return true;
-		}
-
-		return false;
-	}
+        return i instanceof ReturnInstruction;
+    }
 
 	@Override
 	public void run(ClassGroup group)

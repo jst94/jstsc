@@ -45,14 +45,9 @@ public class IfLe extends If0
 		
 		if (thisIc.getInstruction().getClass() == otherIc.getInstruction().getClass())
 			return true;
-		
-		if (otherIc.getInstruction() instanceof IfGt)
-		{
-			return true;
-		}
-		
-		return false;
-	}
+
+        return otherIc.getInstruction() instanceof IfGt;
+    }
 	
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

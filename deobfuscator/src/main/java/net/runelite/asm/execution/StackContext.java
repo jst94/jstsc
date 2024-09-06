@@ -34,7 +34,7 @@ public class StackContext
 	public InstructionContext pushed; // instruction which pushed this
 	public List<InstructionContext> poppeds = new ArrayList<>(); // instructions which popped this
 	public Type type; // type of this
-	private Value value;
+	private final Value value;
 	public boolean removed;
 	public StackContext returnSource; // if this is the return value of an invokestatic, returnSource is the stack popped by the Return instruction
 	

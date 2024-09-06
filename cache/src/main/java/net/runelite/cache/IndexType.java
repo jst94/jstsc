@@ -48,7 +48,7 @@ public enum IndexType
 	WORLDMAP_GROUND(20),
 	DBTABLEINDEX(21);
 
-	private int id;
+	private final int id;
 
 	IndexType(int id)
 	{

@@ -53,8 +53,8 @@ public class IllegalStateExceptions implements Deobfuscator
 	private static final Logger logger = LoggerFactory.getLogger(IllegalStateExceptions.class);
 
 	private int count;
-	private Set<Instruction> interesting = new HashSet<>();
-	private List<InstructionContext> toRemove = new ArrayList<>();
+	private final Set<Instruction> interesting = new HashSet<>();
+	private final List<InstructionContext> toRemove = new ArrayList<>();
 
 	/* find if, new, ..., athrow, replace with goto */
 	private void findInteresting(ClassGroup group)

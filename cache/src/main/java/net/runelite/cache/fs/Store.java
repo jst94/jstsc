@@ -86,14 +86,10 @@ public final class Store implements Closeable
 			return false;
 		}
 		final Store other = (Store) obj;
-		if (!Objects.equals(this.indexes, other.indexes))
-		{
-			return false;
-		}
-		return true;
-	}
+        return Objects.equals(this.indexes, other.indexes);
+    }
 
-	public final Index addIndex(int id)
+	public Index addIndex(int id)
 	{
 		for (Index i : indexes)
 		{

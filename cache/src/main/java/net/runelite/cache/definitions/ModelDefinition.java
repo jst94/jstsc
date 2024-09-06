@@ -53,7 +53,7 @@ public class ModelDefinition
 
 	public transient int maxPriority;
 
-	public static transient int animOffsetX, animOffsetY, animOffsetZ;
+	public static int animOffsetX, animOffsetY, animOffsetZ;
 
 	public void computeNormals()
 	{
@@ -96,7 +96,7 @@ public class ModelDefinition
 				var13 >>= 1;
 			}
 
-			int length = (int) Math.sqrt((double) (var11 * var11 + var12 * var12 + var13 * var13));
+			int length = (int) Math.sqrt(var11 * var11 + var12 * var12 + var13 * var13);
 			if (length <= 0)
 			{
 				length = 1;

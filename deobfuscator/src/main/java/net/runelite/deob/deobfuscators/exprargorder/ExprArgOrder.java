@@ -512,9 +512,9 @@ public class ExprArgOrder implements Deobfuscator
 			assert idx != -1;
 
 			// get next instruction
-			Instruction next = ins.getInstructions().get(idx + 1);;
+			Instruction next = ins.getInstructions().get(idx + 1);
 
-			// remove expression
+            // remove expression
 			remove(ins, expression.getHead());
 
 			// sort expression

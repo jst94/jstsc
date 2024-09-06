@@ -63,9 +63,8 @@ public class IfEq extends If0
 		{
 			StackContext s1 = otherIc.getPops().get(0),
 				s2 = otherIc.getPops().get(1);
-			
-			if (isZero(s1) || isZero(s2) || isOne(s1) || isOne(s2))
-				return true;
+
+            return isZero(s1) || isZero(s2) || isOne(s1) || isOne(s2);
 		}
 	
 		return false;

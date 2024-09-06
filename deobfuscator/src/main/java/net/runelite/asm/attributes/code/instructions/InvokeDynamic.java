@@ -46,10 +46,10 @@ import org.objectweb.asm.MethodVisitor;
 
 public class InvokeDynamic extends Instruction implements InvokeInstruction
 {
-	private String name;
-	private String desc;
-	private Handle bsm;
-	private Object[] bsmArgs;
+	private final String name;
+	private final String desc;
+	private final Handle bsm;
+	private final Object[] bsmArgs;
 
 	public InvokeDynamic(Instructions instructions, String name, String desc, Handle bsm, Object[] bsmArgs)
 	{
@@ -160,13 +160,8 @@ public class InvokeDynamic extends Instruction implements InvokeInstruction
 		Signature thisIiType = new Signature(thisIi.desc);
 		Signature otherIiType = new Signature(otherIi.desc);
 
-		if (!MappingExecutorUtil.isMaybeEqual(thisIiType, otherIiType))
-		{
-			return false;
-		}
-
-		return true;
-	}
+        return MappingExecutorUtil.isMaybeEqual(thisIiType, otherIiType);
+    }
 
 	@Override
 	public boolean canMap(InstructionContext thisIc)

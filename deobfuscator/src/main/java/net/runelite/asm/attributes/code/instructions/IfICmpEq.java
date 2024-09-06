@@ -52,10 +52,7 @@ public class IfICmpEq extends If
 			PushConstantInstruction pc = (PushConstantInstruction) s.getPushed().getInstruction();
 			Object o = pc.getConstant();
 
-			if (o instanceof Integer && (int) o == val)
-			{
-				return true;
-			}
+            return o instanceof Integer && (int) o == val;
 		}
 
 		return false;
@@ -107,18 +104,10 @@ public class IfICmpEq extends If
 			StackContext s1 = thisIc.getPops().get(0),
 				s2 = thisIc.getPops().get(1);
 
-			if (isZero(s1) || isZero(s2) || isOne(s1) || isOne(s2))
-			{
-				return true;
-			}
+            return isZero(s1) || isZero(s2) || isOne(s1) || isOne(s2);
 		}
-		else if (otherIc.getInstruction() instanceof IfICmpNe)
-		{
-			return true;
-		}
-
-		return false;
-	}
+		else return otherIc.getInstruction() instanceof IfICmpNe;
+    }
 
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

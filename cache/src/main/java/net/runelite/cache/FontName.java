@@ -33,7 +33,7 @@ public enum FontName
 	VERDANA_13("verdana_13pt_regular"),
 	VERDANA_15("verdana_15pt_regular");
 
-	private String name;
+	private final String name;
 
 	FontName(String name)
 	{

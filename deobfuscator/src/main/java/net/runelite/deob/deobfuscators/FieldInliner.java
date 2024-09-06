@@ -52,8 +52,8 @@ public class FieldInliner implements Deobfuscator
 	private static final Logger logger = LoggerFactory.getLogger(FieldInliner.class);
 
 	private ClassGroup group;
-	private Multimap<Field, FieldInstruction> fieldInstructions = HashMultimap.create();
-	private List<Field> fields = new ArrayList<>();
+	private final Multimap<Field, FieldInstruction> fieldInstructions = HashMultimap.create();
+	private final List<Field> fields = new ArrayList<>();
 	
 	private void findFieldIns()
 	{

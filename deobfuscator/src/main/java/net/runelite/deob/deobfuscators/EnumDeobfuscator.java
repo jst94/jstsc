@@ -91,13 +91,8 @@ public class EnumDeobfuscator implements Deobfuscator
 			.filter(m -> !m.isStatic())
 			.filter(m -> !m.getName().startsWith("<"))
 			.count();
-		if (count != 1)
-		{
-			return false;
-		}
-
-		return true;
-	}
+        return count == 1;
+    }
 
 	private boolean interfaceIsEnum(ClassFile cf)
 	{

@@ -70,13 +70,8 @@ public class IfNe extends If0
 				return true;
 		}
 
-		if (otherIc.getInstruction() instanceof IfEq)
-		{
-			return true;
-		}
-		
-		return false;
-	}
+        return otherIc.getInstruction() instanceof IfEq;
+    }
 	
 	@Override
 	public void map(ParallelExecutorMapping mapping, InstructionContext ctx, InstructionContext other)

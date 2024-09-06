@@ -37,9 +37,9 @@ import net.runelite.asm.signature.Signature;
 
 public class Code
 {
-	private Method method;
+	private final Method method;
 	private int maxStack;
-	private Instructions instructions;
+	private final Instructions instructions;
 	private final Exceptions exceptions;
 
 	public Code(Method method)

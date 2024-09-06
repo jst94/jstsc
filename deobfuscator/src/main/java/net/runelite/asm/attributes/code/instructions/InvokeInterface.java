@@ -82,7 +82,7 @@ public class InvokeInterface extends Instruction implements InvokeInstruction
 	@Override
 	public List<net.runelite.asm.Method> getMethods()
 	{
-		return myMethods != null ? myMethods : Arrays.asList();
+		return myMethods != null ? myMethods : List.of();
 	}
 
 	@Override
