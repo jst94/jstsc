@@ -46,161 +46,109 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReflectUtil
-{
+public class ReflectUtil {
+
+	private static final String CLASS_FILE_PATH = "/" + PrivateLookupHelper.class.getName().replace('.', '/') + ".class";
 	private static Set<Class<?>> annotationClasses = Collections.newSetFromMap(new WeakHashMap<>());
 
-	public static MethodHandles.Lookup privateLookupIn(Class<?> clazz)
-	{
-		try
-		{
-			MethodHandles.Lookup caller;
-			if (clazz.getClassLoader() instanceof PrivateLookupableClassLoader)
-			{
-				caller = ((PrivateLookupableClassLoader) clazz.getClassLoader()).getLookup();
-			}
-			else
-			{
-				caller = MethodHandles.lookup();
-			}
-			return MethodHandles.privateLookupIn(clazz, caller);
-		}
-		catch (IllegalAccessException e)
-		{
+	public static MethodHandles.Lookup getPrivateLookup(Class<?> clazz) {
+		try {
+			MethodHandles.Lookup callerLookup = (clazz.getClassLoader() instanceof PrivateLookupableClassLoader)
+					? ((PrivateLookupableClassLoader) clazz.getClassLoader()).getLookup()
+					: MethodHandles.lookup();
+			return MethodHandles.privateLookupIn(clazz, callerLookup);
+		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public interface PrivateLookupableClassLoader
-	{
-		// define class is protected final so this needs a different name to become public
-		Class<?> defineClass0(String name, byte[] b, int off, int len) throws ClassFormatError;
+	public static void installLookupHelper(PrivateLookupableClassLoader classLoader) {
+		try (InputStream in = ReflectUtil.class.getResourceAsStream(CLASS_FILE_PATH)) {
+			byte[] classData = ByteStreams.toByteArray(in);
+			Class<?> clazz = classLoader.defineClass0(PrivateLookupHelper.class.getName(), classData, 0, classData.length);
+			clazz.getDeclaredConstructor().newInstance();
+			clazz.getConstructor().newInstance();
+		} catch (IOException | ReflectiveOperationException e) {
+			throw new RuntimeException("Unable to install lookup helper", e);
+		}
+	}
+
+	public static class PrivateLookupHelper {
+		static {
+			ClassLoader classLoader = PrivateLookupHelper.class.getClassLoader();
+			if (classLoader instanceof PrivateLookupableClassLoader) {
+				PrivateLookupableClassLoader pcl = (PrivateLookupableClassLoader) classLoader;
+				pcl.setLookup(MethodHandles.lookup());
+			}
+		}
+	}
+
+	public interface PrivateLookupableClassLoader {
+		void setLookup(MethodHandles.Lookup lookup);
+
+		Class<?> defineClass0(String name, byte[] classData, int i, int length);
 
 		MethodHandles.Lookup getLookup();
-
-		void setLookup(MethodHandles.Lookup lookup);
 	}
 
-	/**
-	 * Allows private Lookups to be created for classes in this ClassLoader
-	 * <p>
-	 * Due to JDK-8173978 it is impossible to create get a lookup with module scoped permissions when teleporting
-	 * between modules. Since external plugins are loaded in a separate classloader to us they are contained in unique
-	 * unnamed modules. Since we (via LambdaMetafactory) are creating a hidden class in that module, we require module
-	 * scoped access to it, and since the methods can be private, we also require private access. The only way to get
-	 * MODULE|PRIVATE is to either 1) invokedynamic in that class, 2) call MethodHandles.lookup() from that class, or
-	 * 3) call privateLookupIn with an existing lookup with PRIVATE|MODULE created from a class in the same module.
-	 * Our solution is to make classloaders call this method which will define a class in the classloader's unnamed
-	 * module that calls MethodHandles.lookup() and stores it in the classloader for later use.
-	 */
-	public static void installLookupHelper(PrivateLookupableClassLoader cl)
-	{
-		String name = PrivateLookupHelper.class.getName();
-		try (InputStream in = ReflectUtil.class.getResourceAsStream("/" + name.replace('.', '/') + ".class"))
-		{
-			byte[] classData = ByteStreams.toByteArray(in);
-			Class<?> clazz = cl.defineClass0(name, classData, 0, classData.length);
+	public static synchronized void queueInjectorAnnotationCacheInvalidation(Injector injector) {
+		if (annotationClasses == null) return;
 
-			// force <clinit> to run
-			clazz.getConstructor().newInstance();
-		}
-		catch (IOException | ReflectiveOperationException e)
-		{
-			throw new RuntimeException("unable to install lookup helper", e);
-		}
-	}
-
-	public static class PrivateLookupHelper
-	{
-		static
-		{
-			PrivateLookupableClassLoader pcl = (PrivateLookupableClassLoader) PrivateLookupHelper.class.getClassLoader();
-			pcl.setLookup(MethodHandles.lookup());
-		}
-	}
-
-	public synchronized static void queueInjectorAnnotationCacheInvalidation(Injector injector)
-	{
-		if (annotationClasses == null)
-		{
-			return;
-		}
-
-		for (Key<?> key : injector.getAllBindings().keySet())
-		{
-			for (Class<?> clazz = key.getTypeLiteral().getRawType(); clazz != null; clazz = clazz.getSuperclass())
-			{
+		for (Key<?> key : injector.getAllBindings().keySet()) {
+			for (Class<?> clazz = key.getTypeLiteral().getRawType(); clazz != null; clazz = clazz.getSuperclass()) {
 				annotationClasses.add(clazz);
 			}
 		}
 	}
 
-	public synchronized static void invalidateAnnotationCaches()
-	{
-		try
-		{
-			for (Class<?> clazz : annotationClasses)
-			{
-				for (Method method : clazz.getDeclaredMethods())
-				{
-					uncacheAnnotations(method, Executable.class);
-				}
-				for (Field field : clazz.getDeclaredFields())
-				{
-					uncacheAnnotations(field, Field.class);
-				}
-				for (Constructor<?> constructor : clazz.getDeclaredConstructors())
-				{
-					uncacheAnnotations(constructor, Executable.class);
-				}
+	public static synchronized void invalidateAnnotationCaches() {
+		try {
+			for (Class<?> clazz : annotationClasses) {
+				invalidateMethodAnnotations(clazz.getDeclaredMethods());
+				invalidateFieldAnnotations(clazz.getDeclaredFields());
+				invalidateConstructorAnnotations(clazz.getDeclaredConstructors());
 			}
-		}
-		catch (Exception ex)
-		{
-			// this fails on newer Java versions which don't allow reflect into java.base
+		} catch (Exception ex) {
 			log.debug(null, ex);
-		}
-		finally
-		{
+		} finally {
 			annotationClasses.clear();
 			annotationClasses = null;
 		}
 	}
 
-	/**
-	 * Java caches parsed annotations on AccessibleObjects in a LinkedHashMap for performance reasons.
-	 * Since we don't use annotations much after startup, we can invalidate these caches.
-	 *
-	 * @param object
-	 * @param declaredAnnotationsClazz
-	 * @throws Exception
-	 */
-	private static void uncacheAnnotations(final Object object, Class<?> declaredAnnotationsClazz) throws Exception
-	{
-		if (object == null)
-		{
-			return;
+	private static void invalidateMethodAnnotations(Method[] methods) throws Exception {
+		for (Method method : methods) {
+			uncacheAnnotations(method, Executable.class);
 		}
+	}
+
+	private static void invalidateFieldAnnotations(Field[] fields) throws Exception {
+		for (Field field : fields) {
+			uncacheAnnotations(field, Field.class);
+		}
+	}
+
+	private static void invalidateConstructorAnnotations(Constructor<?>[] constructors) throws Exception {
+		for (Constructor<?> constructor : constructors) {
+			uncacheAnnotations(constructor, Executable.class);
+		}
+	}
+
+	private static void uncacheAnnotations(final Object object, Class<?> declaredAnnotationsClazz) throws Exception {
+		if (object == null) return;
 
 		Field declaredAnnotations = declaredAnnotationsClazz.getDeclaredField("declaredAnnotations");
 		declaredAnnotations.setAccessible(true);
 
-		synchronized (object)
-		{
-			Map<Class<? extends Annotation>, Annotation> m = (Map) declaredAnnotations.get(object);
-			// AnnotationParser returns the shared empty map for methods with no runtime annotations,
-			// so we can avoid nulling it in that case.
-			if (m != null && m != Collections.<Class<? extends Annotation>, Annotation>emptyMap())
-			{
+		synchronized (object) {
+			Map<Class<? extends Annotation>, Annotation> cache = (Map) declaredAnnotations.get(object);
+			if (cache != null && cache != Collections.<Class<? extends Annotation>, Annotation>emptyMap()) {
 				declaredAnnotations.set(object, null);
 			}
 		}
 
-		// JDK11 shares the annotation map between the object and its root, so clear both;
-		// JDK8 just has the annotations on object.
 		Field rootField = object.getClass().getDeclaredField("root");
 		rootField.setAccessible(true);
-
 		final Object root = rootField.get(object);
 		uncacheAnnotations(root, declaredAnnotationsClazz);
 	}
